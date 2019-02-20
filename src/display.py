@@ -12,9 +12,9 @@ class Display:
         self.__color_white = (255 , 255 , 255)
 
         #DVD Icon Variables
-        self.__dvd_x = self.__screen_width // 2
-        self.__dvd_y = self.__screen_height // 2
-        self.__dvd_speed = [random.choice([5 , -5]) , random.choice([5 , -5])]
+        self.__dvd_x = (self.__screen_width // 2) - 40
+        self.__dvd_y = (self.__screen_height // 2) - 40
+        self.__dvd_speed = [random.choice([3 , -3]) , random.choice([3 , -3])]
 
         #Objects
         self.__game_display = None
@@ -25,7 +25,21 @@ class Display:
     def __dvd(self):
         dvd = pygame.image.load("./assets/DVD_logo.png")
 
-        self.__game_display.blit(dvd , [(self.__dvd_x - 40) , (self.__dvd_y - 40)])
+        #Move DVD Logo
+        self.__dvd_x += self.__dvd_speed[0]
+        self.__dvd_y += self.__dvd_speed[1]
+
+        #Collision Check
+        if self.__dvd_x <= 0 or (self.__dvd_x >= self.__screen_width - 75):
+            self.__dvd_speed[0] = -self.__dvd_speed[0]
+        if self.__dvd_y <= 15 or self.__dvd_y >=  (self.__screen_height - 15):
+            self.__dvd_speed[1] = -self.__dvd_speed[1]
+
+        self.__game_display.blit(dvd , [self.__dvd_x , self.__dvd_y - 40])
+
+    #Display Stats
+    def __stats(self):
+        pass
 
     #Main Display Function
     def display(self):
